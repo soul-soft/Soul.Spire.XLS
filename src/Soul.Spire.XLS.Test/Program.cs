@@ -42,8 +42,8 @@ namespace Soul.Spire.XLS.Test
             var workbook = new Workbook();
             workbook.Worksheets.Clear();
             var worksheet = workbook.CreateEmptySheet();
-            var range = worksheet.InsertTable(table, 1);
-            range.ApplyDefaultStyle();
+            var info = worksheet.InsertTable(table, 2,2);
+            info.ApplyDefaultStyle();
 
             workbook.SaveToFile("D:\\ff.xlsx", ExcelVersion.Version2016);
             Process.Start(new ProcessStartInfo

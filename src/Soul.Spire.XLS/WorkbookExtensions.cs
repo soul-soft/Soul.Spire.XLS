@@ -7,7 +7,7 @@ namespace Soul.Spire.XLS
 {
     public static class WorkbookExtensions
     {
-        public static XLSTableRange InsertTable(this IWorksheet sheet, XLSTable table, int rowIndex, int columnIndex = 1)
+        public static XLSTableInfo InsertTable(this IWorksheet sheet, XLSTable table, int rowIndex, int columnIndex = 1)
         {
             if (sheet == null)
                 throw new ArgumentNullException(nameof(sheet));
@@ -15,9 +15,9 @@ namespace Soul.Spire.XLS
                 throw new ArgumentNullException(nameof(table));
             InsertHeaders(sheet, table.Root, rowIndex, columnIndex);
             InsertTableRows(sheet, table, rowIndex + table.Root.GetDepth() - 1, columnIndex);
-            var body = sheet.Range[rowIndex, columnIndex, table.Rows.Count + table.Root.GetDepth() - 1, table.Columns.Count];
-            var header = sheet.Range[rowIndex, columnIndex, table.Root.GetDepth() - 1, table.Columns.Count];
-            return new XLSTableRange(header, body);
+            var body = sheet.Range[rowIndex, columnIndex, rowIndex + table.Rows.Count + table.Root.GetDepth() - 2, columnIndex +  table.Columns.Count - 1];
+            var header = sheet.Range[rowIndex, columnIndex, rowIndex + table.Root.GetDepth() - 2, columnIndex + table.Columns.Count - 1];
+            return new XLSTableInfo(header, body);
         }
 
         private static void InsertHeaders(IWorksheet sheet, XLSColumn header, int rowIndex, int columnIndex = 0)
@@ -63,7 +63,5 @@ namespace Soul.Spire.XLS
                 rowIndex++;
             }
         }
-
-
     }
 }
